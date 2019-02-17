@@ -31,3 +31,32 @@ SELECT userid,COUNT (rating) as rate FROM ratings
 GROUP BY userid
 HAVING COUNT(rating)>10)
 SELECT AVG(rate) as ratt FROM ten_table;
+
+---------Дополненные запросы----------------------
+postgres=# SELECT  imdbid,rat FROM links 
+
+INNER JOIN(SELECT movieid,AVG(rating) AS rat FROM ratings  
+
+GROUP BY movieid 
+
+HAVING AVG(rating)>3.5 
+
+LIMIT 10) AS tabe ON links.movieid=tabe.movieid 
+
+LIMIT 10; 
+----------------------------------------------------
+ 
+
+postgres=# WITH ten_table AS( 
+
+SELECT userid,AVG(rating) as rate_avg,COUNT(rating) as rate_count FROM ratings 
+
+GROUP BY userid 
+
+LIMIT 10) 
+
+postgres-# SELECT userid,rate_avg,rate_count FROM ten_table 
+
+postgres-# WHERE rate_count>10 
+
+postgres-# LIMIT 10; 
